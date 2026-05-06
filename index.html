@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Afrin's 2nd Anniversary Milestone ❤️</title>
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Noto+Nastaliq+Urdu&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+<style>
+    :root {
+        --primary: #ff2f7d;
+        --gold: #ffd700;
+        --glass: rgba(255, 255, 255, 0.05);
+        --border: rgba(255, 255, 255, 0.12);
+    }
+
+    * { margin:0; padding:0; box-sizing:border-box; font-family:'Poppins',sans-serif; touch-action: none; }
+
+    body {
+        overflow: hidden; height: 100vh; width: 100vw;
+        background: #060007; display: flex;
+        flex-direction: column; justify-content: center; align-items: center;
+        perspective: 1500px;
+    }
+
+    canvas#celebrationCanvas {
+        position: fixed; inset: 0; pointer-events: none; z-index: 999;
+    }
+
+    .glow-bg {
+        position: fixed; width: 500px; height: 500px;
+        background: radial-gradient(circle, rgba(255, 47, 125, 0.1) 0%, transparent 70%);
+        border-radius: 50%; pointer-events: none; z-index: 1;
+    }
+
+    /* Music Control Button */
+    #musicToggle {
+        position: fixed; top: 20px; right: 20px; z-index: 1000;
+        background: var(--glass); border: 1px solid var(--gold);
+        color: var(--gold); border-radius: 50%; width: 40px; height: 40px;
+        display: flex; justify-content: center; align-items: center; cursor: pointer;
+        backdrop-filter: blur(10px); font-size: 18px;
+    }
+
+    header {
+        position: fixed; top: 20px; width: 95%; max-width: 500px;
+        text-align: center; z-index: 100; transform-style: preserve-3d;
+    }
+    .anniversary-pill {
+        background: rgba(255, 255, 255, 0.05); border: 1px solid var(--gold);
+        border-radius: 50px; padding: 12px 20px; backdrop-filter: blur(15px);
+        box-shadow: 0 0 20px rgba(255, 215, 0, 0.2);
+    }
+    .anniversary-pill h2 {
+        color: var(--gold); font-family: 'Dancing Script', cursive;
+        font-size: clamp(18px, 4vw, 24px); letter-spacing: 1px;
+    }
+
+    .container-3d {
+        position: relative; width: 92%; max-width: 440px; height: 600px;
+        padding: 25px; background: var(--glass);
+        backdrop-filter: blur(25px); border: 1px solid var(--border);
+        border-radius: 40px; box-shadow: 0 40px 100px rgba(0,0,0,0.8);
+        transform-style: preserve-3d; transition: transform 0.1s ease-out;
+        display: flex; flex-direction: column; z-index: 10; margin-top: 40px;
+    }
+
+    .question { 
+        color: white; text-align: center; 
+        font-size: clamp(18px, 5vw, 24px); 
+        font-weight: 700; margin: 15px 0;
+        min-height: 70px; text-shadow: 0 5px 15px rgba(0,0,0,0.5);
+    }
+
+    .options-grid { display: grid; grid-template-rows: repeat(6, 1fr); gap: 10px; flex-grow: 1; }
+    .slot { width: 100%; height: 50px; position: relative; }
+    .option-card {
+        position: absolute; width: 100%; height: 100%;
+        background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border);
+        border-radius: 15px; color: white; display: flex;
+        justify-content: center; align-items: center; font-size: 15px;
+        cursor: pointer; transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    #finalPage { 
+        display: none; height: 100%; overflow-y: auto; 
+        padding: 10px; scroll-behavior: smooth;
+    }
+    .note-content { color: #eee; font-size: 14px; line-height: 1.8; text-align: left; padding-bottom: 50px; }
+    .urdu-text { direction: rtl; font-family: 'Noto Nastaliq Urdu', serif; text-align: right; margin-top: 40px; font-size: 18px; line-height: 2.2; }
+    .highlight { color: var(--gold); font-weight: 700; text-shadow: 0 0 10px rgba(255, 215, 0, 0.5); }
+
+    #finaleBanner {
+        display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.9);
+        z-index: 1000; flex-direction: column; justify-content: center; align-items: center;
+        backdrop-filter: blur(10px); text-align: center;
+    }
+    .grand-title {
+        font-family: 'Dancing Script', cursive; font-size: clamp(40px, 10vw, 70px);
+        background: linear-gradient(to bottom, #fff, var(--gold));
+        -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        text-shadow: 0 0 30px rgba(255, 215, 0, 0.5); margin-bottom: 20px;
+    }
+
+    footer { position: fixed; bottom: 15px; width: 100%; text-align: center; z-index: 100; }
+    .sig { font-family: 'Dancing Script', cursive; color: rgba(255,255,255,0.8); font-size: 22px; }
+
+    .modal-overlay {
+        position: fixed; inset: 0; background: rgba(0,0,0,0.95);
+        display: none; justify-content: center; align-items: center; z-index: 2000;
+    }
+    .modal-box {
+        background: #111; padding: 35px; border-radius: 30px; border: 1px solid var(--primary);
+        text-align: center; width: 85%; max-width: 320px;
+    }
+</style>
+</head>
+<body>
+
+<canvas id="celebrationCanvas"></canvas>
+<div class="glow-bg" id="cursorGlow"></div>
+
+<audio id="romanticMusic" loop>
+    <source src="https://drive.google.com/file/d/1M9h33DhLsnaQbJYTu2Gz5Ycq7qc3GRW0/view?usp=drivesdk" type="audio/mpeg">
+</audio>
+
+<button id="musicToggle" onclick="toggleMusic()">🎵</button>
+
+<header id="h3d">
+    <div class="anniversary-pill">
+        <h2>2 Years with <span class="highlight">Afrin</span> ❤️</h2>
+    </div>
+</header>
+
+<div class="container-3d" id="card">
+    <div id="quizContent" style="height: 100%; display: flex; flex-direction: column;">
+        <div style="color: var(--primary); font-size: 10px; letter-spacing: 5px; text-align: center; font-weight: 700; margin-top: 10px;">LEVEL <span id="lvl">1</span>/7</div>
+        <div class="question" id="qText">Milestone...</div>
+        
+        <div class="options-grid" id="grid">
+            <div class="slot" id="slot0"></div><div class="slot" id="slot1"></div>
+            <div class="slot" id="slot2"></div><div class="slot" id="slot3"></div>
+            <div class="slot" id="slot4"></div><div class="slot" id="slot5"></div>
+        </div>
+    </div>
+
+    <div id="finalPage">
+        <div class="note-content" id="typingArea"></div>
+    </div>
+</div>
+
+<div id="finaleBanner">
+    <div class="grand-title">Happy 2nd Anniversary<br><span style="color:var(--gold)">AFRIN</span></div>
+    <p style="color:white; letter-spacing: 5px;">MAHFUZ ❤️ AFRIN</p>
+    <button onclick="location.reload()" style="margin-top: 30px; background: none; border: 1px solid var(--gold); color: white; padding: 10px 20px; border-radius: 50px; cursor: pointer;">Replay Story</button>
+</div>
+
+<footer>
+    <div class="sig">Forever yours, Mahfuz ✨</div>
+    <div style="color:rgba(255,255,255,0.2); font-size: 9px; margin-top: 5px;">&copy; 2026 Mahfuz | Anniversary Special</div>
+</footer>
+
+<div class="modal-overlay" id="modal">
+    <div class="modal-box">
+        <h3 style="color:white; font-family:'Dancing Script', cursive; font-size:28px;">Milestone Cleared!</h3>
+        <input type="password" id="passInput" placeholder="Password" inputmode="numeric" style="width:100%; padding:15px; border-radius:15px; border:none; background:rgba(255,255,255,0.1); color:white; text-align:center; font-size:20px; outline:none; margin:20px 0;">
+        <button onclick="checkPass()" style="width:100%; background:var(--primary); color:white; border:none; padding:15px; border-radius:15px; font-weight:700; cursor:pointer;">Unlock Next Chapter</button>
+    </div>
+</div>
+
+<script>
+// --- Music Logic ---
+const bgMusic = document.getElementById('romanticMusic');
+bgMusic.volume = 0.2; // 20% Volume (Slow Awaz)
+
+function playMusic() {
+    bgMusic.play().catch(() => {
+        console.log("Autoplay blocked, waiting for user interaction");
+    });
+}
+
+function toggleMusic() {
+    if (bgMusic.paused) {
+        bgMusic.play();
+        document.getElementById('musicToggle').innerText = "🎵";
+    } else {
+        bgMusic.pause();
+        document.getElementById('musicToggle').innerText = "🔇";
+    }
+}
+
+// Baki ka purana logic...
+const questions = [
+    {q:"Who has loved you more than life for 2 years? ❤️", correct:"Mahfuz", w1:"The Universe", w2:"Nobody", pass:"2"},
+    {q:"Where is Mahfuz's safest place? 💖", correct:"In Afrin's Heart", w1:"At Home", w2:"In Dubai", pass:"2"},
+    {q:"Who is the light of my dark nights? ✨", correct:"Afrin", w1:"The Moon", w2:"Electric Lamp", pass:"2"},
+    {q:"What is our most beautiful memory? 🌹", correct:"Being Together", w1:"Spending Money", w2:"Watching TV", pass:"2"},
+    {q:"Who is the queen of my universe? 👑", correct:"Afrin, My Love", w1:"An Actress", w2:"A Rose", pass:"2"},
+    {q:"How long will we stay together? 🥰", correct:"Until Forever", w1:"For Few Years", w2:"Unknown", pass:"2"},
+    {q:"Do you know how much I love you? ❤️", correct:"Unmeasurably", w1:"A Lot", w2:"Little Bit", pass:"2"}
+];
+
+let current = 0;
+let occupiedSlots = [];
+const card = document.getElementById('card');
+const glow = document.getElementById('cursorGlow');
+
+document.addEventListener('mousemove', (e) => {
+    let x = (window.innerWidth / 2 - e.clientX) / 25;
+    let y = (window.innerHeight / 2 - e.clientY) / 25;
+    card.style.transform = `rotateY(${-x}deg) rotateX(${y}deg)`;
+    glow.style.left = (e.clientX - 250) + 'px';
+    glow.style.top = (e.clientY - 250) + 'px';
+});
+
+function loadQ() {
+    const data = questions[current];
+    document.getElementById('lvl').innerText = current + 1;
+    document.getElementById('qText').innerText = data.q;
+    for(let i=0; i<6; i++) document.getElementById(`slot${i}`).innerHTML = "";
+    occupiedSlots = [0, 1, 2]; 
+    let opts = [{t: data.correct, ok: true}, {t: data.w1, ok: false}, {t: data.w2, ok: false}].sort(() => Math.random() - 0.5);
+
+    opts.forEach((o, i) => {
+        const div = document.createElement('div');
+        div.className = "option-card"; div.innerText = o.t;
+        if(o.ok) {
+            div.onclick = () => { 
+                playMusic(); // Pehle click par music start ho jayega
+                document.getElementById('modal').style.display='flex'; 
+                document.getElementById('passInput').focus(); 
+            };
+        } else {
+            const bounce = (e) => {
+                e.preventDefault(); playMusic();
+                let currentSlotIdx = parseInt(div.parentElement.id.replace('slot', ''));
+                occupiedSlots = occupiedSlots.filter(s => s !== currentSlotIdx);
+                let emptySlots = [0,1,2,3,4,5].filter(s => !occupiedSlots.includes(s));
+                let newSlotIdx = emptySlots[Math.floor(Math.random() * emptySlots.length)];
+                document.getElementById(`slot${newSlotIdx}`).appendChild(div);
+                occupiedSlots.push(newSlotIdx);
+            };
+            div.addEventListener('mouseover', bounce); div.addEventListener('touchstart', bounce);
+        }
+        document.getElementById(`slot${i}`).appendChild(div);
+    });
+}
+
+function checkPass() {
+    if(document.getElementById('passInput').value === questions[current].pass) {
+        document.getElementById('modal').style.display = 'none';
+        document.getElementById('passInput').value = "";
+        current++;
+        if(current < questions.length) loadQ(); else startFinalNote();
+    } else { alert("Mahfuz is disappointed! Wrong Password! 😜"); }
+}
+
+function startFinalNote() {
+    document.getElementById('quizContent').style.display = 'none';
+    const finalPage = document.getElementById('finalPage');
+    finalPage.style.display = 'block';
+    
+    const englishMsg = `My Dearest <span class="highlight">Afrin</span>,
+    
+Happy 2nd Anniversary to the most beautiful soul!
+These last two years have been magical because of you.
+Every time I look at you, I fall in love all over again.
+You are the reason <span class="highlight">Mahfuz</span> smiles every morning.
+Life was just a journey until you became my destination.
+I remember every laugh, every talk, and every touch.
+You have turned my house into a beautiful home.
+<span class="highlight">Afrin</span>, you are my strength when I am weak.
+You are my peace in this chaotic world.
+I promise to hold your hand until the very end.
+I promise to protect your smile from every sorrow.
+Two years is just the first chapter of our infinity.
+I want to grow old watching the sunsets with you.
+Thank you for tolerating my madness with your love.
+Thank you for being the queen of <span class="highlight">Mahfuz's</span> heart.
+Your love is the only treasure I want to keep forever.
+I still get butterflies when you call my name.
+You are my today, my tomorrow, and my always.
+Nothing in this universe is more precious than you.
+I love you beyond the boundaries of time.
+Happy Anniversary, my darling <span class="highlight">Afrin</span>!
+Always and forever yours...`;
+
+    const urduMsg = `<div class="urdu-text">میری پیاری <span class="highlight">آفرین</span>،
+
+دوسری سالگرہ بہت بہت مبارک ہو میری جان!
+یہ دو سال میری زندگی کے سب سے خوبصورت سال تھے۔
+تمہارے ساتھ گزارا ہوا ہر لمحہ میرے لئے ایک تحفہ ہے۔
+<span class="highlight">محفوظ</span> کی زندگی صرف تم سے ہی مکمل ہوتی ہے۔
+تم میری اداس راتوں کا وہ چاند ہو جو کبھی نہیں ڈھلتا۔
+تم نے مجھے سکھایا کہ سچی محبت کیا ہوتی ہے۔
+میں وعدہ کرتا ہوں کہ میں ہمیشہ تمہارا ساتھ دوں گا۔
+تمہاری خوشی میری زندگی کا سب سے بڑا مقصد ہے۔
+میری کائنات کی ملکہ صرف تم ہو، <span class="highlight">آفرین</span>۔
+تمہاری مسکراہٹ پر میں اپنی پوری زندگی قربان کر سکتا ہوں۔
+دو سال تو صرف شروعات ہے، ہمیں صدیوں ساتھ رہنا ہے۔
+خدا کا شکر ہے کہ اس نے مجھے تمہارے لئے چنا۔
+میری ہر دعا تم سے شروع ہو کر تم پر ہی ختم ہوتی ہے۔
+میں تمہیں کبھی اکیلا نہیں چھوڑوں گا، یہ میرا وعدہ ہے۔
+تمہاری محبت میرے لئے جینے کی واحد وجہ ہے۔
+<span class="highlight">محفوظ</span> ہمیشہ تمہارا ہے اور تمہارا ہی رہے گا۔
+خدا ہماری اس پاک محبت کو ہمیشہ سلامت رکھے۔
+تم میری روح کا سکون اور میرے دل کی دھڑکن ہو۔
+میری زندگی کی سب سے بڑی جیت تم ہو، <span class="highlight">آفرین</span>۔
+تمہارے بنا یہ دنیا صرف ایک ویرانہ ہے۔
+سالگرہ مبارک ہو میری پیاری <span class="highlight">آفرین</span>!
+ہمیشہ تمہارا، <span class="highlight">محفوظ</span>۔۔۔</div>`;
+
+    const fullMsg = englishMsg + "<br><br>" + urduMsg;
+    let i = 0;
+    const target = document.getElementById('typingArea');
+    function type() {
+        if(i < fullMsg.length) {
+            if(fullMsg.charAt(i) === '<') {
+                let tagEnd = fullMsg.indexOf('>', i);
+                target.innerHTML += fullMsg.substring(i, tagEnd + 1);
+                i = tagEnd + 1;
+            } else { target.innerHTML += fullMsg.charAt(i); i++; }
+            finalPage.scrollTop = finalPage.scrollHeight;
+            setTimeout(type, 35);
+        } else { triggerCelebration(); }
+    }
+    type();
+}
+
+function triggerCelebration() {
+    document.getElementById('finaleBanner').style.display = 'flex';
+    const canvas = document.getElementById('celebrationCanvas');
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+    let fireworks = [];
+    class Firework {
+        constructor() {
+            this.x = Math.random() * canvas.width; this.y = canvas.height;
+            this.targetY = Math.random() * canvas.height / 2;
+            this.color = `hsl(${Math.random() * 360}, 100%, 50%)`;
+            this.speed = 4; this.particles = []; this.exploded = false;
+        }
+        update() {
+            if(!this.exploded) { this.y -= this.speed; if(this.y <= this.targetY) { this.exploded = true; for(let i=0; i<40; i++) this.particles.push(new Particle(this.x, this.y, this.color)); }
+            } else { this.particles.forEach((p, idx) => { p.update(); if(p.alpha <= 0) this.particles.splice(idx, 1); }); }
+        }
+        draw() {
+            if(!this.exploded) { ctx.fillStyle = this.color; ctx.beginPath(); ctx.arc(this.x, this.y, 3, 0, Math.PI*2); ctx.fill(); }
+            else { this.particles.forEach(p => p.draw()); }
+        }
+    }
+    class Particle {
+        constructor(x, y, color) { this.x = x; this.y = y; this.color = color; this.angle = Math.random() * Math.PI * 2; this.speed = Math.random() * 4; this.alpha = 1; }
+        update() { this.x += Math.cos(this.angle) * this.speed; this.y += Math.sin(this.angle) * this.speed; this.alpha -= 0.015; }
+        draw() { ctx.globalAlpha = this.alpha; ctx.fillStyle = this.color; ctx.beginPath(); ctx.arc(this.x, this.y, 2, 0, Math.PI*2); ctx.fill(); ctx.globalAlpha = 1; }
+    }
+    function animate() {
+        ctx.fillStyle = 'rgba(0,0,0,0.15)'; ctx.fillRect(0,0,canvas.width, canvas.height);
+        if(Math.random() < 0.06) fireworks.push(new Firework());
+        fireworks.forEach((f, idx) => { f.update(); f.draw(); if(f.exploded && f.particles.length === 0) fireworks.splice(idx, 1); });
+        requestAnimationFrame(animate);
+    }
+    animate();
+}
+
+loadQ();
+</script>
+</body>
+</html>
