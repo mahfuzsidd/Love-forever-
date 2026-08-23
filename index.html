@@ -1,0 +1,1207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Until We Meet Again ❤️</title>
+    <!-- Google Fonts for Vintage Scrapbook Aesthetic -->
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600&family=Playfair+Display:ital,wght@0,600;1,400&family=Special+Elite&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Canvas Confetti Library -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: radial-gradient(circle at center, #2b1d15 0%, #150e0a 100%);
+            color: #f4ebd0;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        .desk-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: radial-gradient(circle at 50% 30%, rgba(139, 94, 60, 0.15) 0%, rgba(21, 14, 10, 0.95) 80%);
+            pointer-events: none;
+        }
+
+        .dust-particle {
+            position: absolute;
+            background: #ffd700;
+            border-radius: 50%;
+            animation: floatParticle 5s linear infinite;
+            z-index: -1;
+            opacity: 0.4;
+        }
+
+        @keyframes floatParticle {
+            0% { transform: translateY(100vh) scale(0.5); opacity: 0; }
+            50% { opacity: 0.6; }
+            100% { transform: translateY(-10vh) scale(1.2); opacity: 0; }
+        }
+
+        .container {
+            max-width: 480px;
+            margin: 0 auto;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .scrapbook-card {
+            background: #fdf6e2;
+            color: #3b2f2f;
+            border: 1px solid #d8c29d;
+            border-radius: 12px;
+            padding: 25px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6), inset 0 0 40px rgba(212, 175, 55, 0.1);
+            position: relative;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        .scrapbook-card::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 120px;
+            height: 25px;
+            background: rgba(210, 180, 140, 0.6);
+            border-left: 2px dashed rgba(100, 70, 40, 0.3);
+            border-right: 2px dashed rgba(100, 70, 40, 0.3);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px) rotate(-1deg); }
+            to { opacity: 1; transform: translateY(0) rotate(0deg); }
+        }
+
+        .screen {
+            display: none;
+            width: 100%;
+        }
+
+        .screen.active {
+            display: block;
+        }
+
+        h1, h2 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 600;
+            color: #4a2e18;
+            margin-bottom: 12px;
+            letter-spacing: 0.5px;
+        }
+
+        .script-font {
+            font-family: 'Caveat', cursive;
+            font-size: 3.2rem;
+            color: #9c4142;
+            margin-bottom: 5px;
+            text-shadow: 1px 1px 0px rgba(0,0,0,0.05);
+        }
+
+        p {
+            font-size: 0.9rem;
+            color: #594a42;
+            line-height: 1.5;
+            margin-bottom: 15px;
+        }
+
+        .couple-badge {
+            font-family: 'Special Elite', monospace;
+            font-size: 0.8rem;
+            color: #8c6d46;
+            background: rgba(140, 109, 70, 0.1);
+            border: 1px dashed #b59b75;
+            padding: 4px 14px;
+            border-radius: 50px;
+            display: inline-block;
+            margin-bottom: 12px;
+            letter-spacing: 1px;
+        }
+
+        .input-box {
+            width: 100%;
+            padding: 12px 20px;
+            background: #f4ebd0;
+            border: 1px solid #b59b75;
+            border-radius: 8px;
+            color: #3b2f2f;
+            font-size: 1rem;
+            outline: none;
+            text-align: center;
+            margin-bottom: 15px;
+            transition: 0.3s;
+        }
+
+        .input-box::placeholder {
+            color: transparent;
+        }
+
+        .input-box:focus {
+            border-color: #9c4142;
+            background: #fff;
+            box-shadow: 0 0 10px rgba(156, 65, 66, 0.2);
+        }
+
+        .btn {
+            background: #9c4142;
+            color: #fff;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-weight: 500;
+            cursor: pointer;
+            box-shadow: 0 6px 15px rgba(156, 65, 66, 0.3);
+            transition: 0.3s;
+            width: 100%;
+            margin-bottom: 10px;
+            font-family: 'Playfair Display', serif;
+            letter-spacing: 0.5px;
+        }
+
+        .btn:hover {
+            background: #7a3233;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(156, 65, 66, 0.5);
+        }
+
+        .live-counter-box {
+            background: rgba(184, 150, 114, 0.15);
+            border: 1px solid #d1b693;
+            padding: 12px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+
+        .live-counter-title {
+            font-family: 'Special Elite', monospace;
+            font-size: 0.75rem;
+            color: #7a5c38;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 6px;
+        }
+
+        .counter-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 6px;
+        }
+
+        .counter-item {
+            background: #f4ebd0;
+            padding: 6px 2px;
+            border-radius: 6px;
+            border: 1px solid #d8c29d;
+        }
+
+        .counter-num {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #9c4142;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .counter-txt {
+            font-size: 0.65rem;
+            color: #7a6b5d;
+        }
+
+        .mood-widget {
+            background: rgba(184, 150, 114, 0.12);
+            border: 1px solid #d1b693;
+            padding: 10px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        .mood-title {
+            font-family: 'Special Elite', monospace;
+            font-size: 0.75rem;
+            color: #7a5c38;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 6px;
+        }
+        .mood-emojis {
+            display: flex;
+            justify-content: space-around;
+            font-size: 1.3rem;
+            cursor: pointer;
+        }
+        .mood-emojis span {
+            transition: transform 0.2s;
+        }
+        .mood-emojis span:hover {
+            transform: scale(1.3);
+        }
+        .mood-response {
+            color: #9c4142;
+            margin-top: 5px;
+            font-style: italic;
+            min-height: 18px;
+            font-family: 'Caveat', cursive;
+            font-size: 1.1rem;
+        }
+
+        .journey-widget {
+            background: rgba(184, 150, 114, 0.12);
+            border: 1px solid #d1b693;
+            padding: 10px 12px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            text-align: left;
+        }
+
+        .journey-info {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.78rem;
+            color: #7a5c38;
+            margin-bottom: 6px;
+            font-weight: 500;
+            font-family: 'Special Elite', monospace;
+        }
+
+        .meter-container {
+            background: rgba(184, 150, 114, 0.12);
+            border: 1px solid #d1b693;
+            border-radius: 10px;
+            padding: 10px;
+            margin-bottom: 10px;
+            text-align: left;
+        }
+        .meter-label {
+            font-size: 0.8rem;
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+            color: #7a5c38;
+            font-family: 'Special Elite', monospace;
+        }
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #ebdcc2;
+            border-radius: 4px;
+            overflow: hidden;
+            border: 1px solid #d1b693;
+        }
+        .progress-fill {
+            height: 100%;
+            background: #9c4142;
+            width: 0%;
+            border-radius: 4px;
+            transition: width 1s ease-in-out;
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 8px;
+            max-height: 130px;
+            overflow-y: auto;
+            padding: 4px;
+            margin-bottom: 12px;
+        }
+
+        .calendar-grid::-webkit-scrollbar {
+            width: 4px;
+        }
+        .calendar-grid::-webkit-scrollbar-thumb {
+            background: #b59b75;
+            border-radius: 10px;
+        }
+
+        .day-btn {
+            background: #f4ebd0;
+            border: 1px solid #c9b08a;
+            border-radius: 8px;
+            aspect-ratio: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: 0.3s;
+            color: #4a2e18;
+            font-size: 0.75rem;
+            position: relative;
+        }
+
+        .day-btn i {
+            color: #9c4142;
+            font-size: 0.8rem;
+            margin-bottom: 2px;
+        }
+
+        .day-btn:hover {
+            background: #ebdcc2;
+            border-color: #9c4142;
+            transform: scale(1.05);
+            box-shadow: 0 0 10px rgba(156, 65, 66, 0.4);
+        }
+
+        .day-btn.special-day {
+            background: #9c4142;
+            color: #fdf6e2;
+            font-weight: bold;
+        }
+        .day-btn.special-day i {
+            color: #fdf6e2;
+        }
+
+        .timeline-container {
+            max-height: 240px;
+            overflow-y: auto;
+            padding: 5px;
+            text-align: left;
+            margin-bottom: 12px;
+        }
+        .timeline-container::-webkit-scrollbar {
+            width: 4px;
+        }
+        .timeline-container::-webkit-scrollbar-thumb {
+            background: #b59b75;
+            border-radius: 10px;
+        }
+        .timeline-item {
+            position: relative;
+            padding-left: 20px;
+            margin-bottom: 15px;
+            border-left: 2px dashed #9c4142;
+        }
+        .timeline-item::before {
+            content: '❤️';
+            position: absolute;
+            left: -8px;
+            top: 0;
+            font-size: 0.7rem;
+        }
+        .timeline-date {
+            font-family: 'Special Elite', monospace;
+            font-size: 0.75rem;
+            color: #9c4142;
+            font-weight: bold;
+        }
+        .timeline-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 0.9rem;
+            color: #4a2e18;
+            font-weight: 600;
+        }
+        .timeline-desc {
+            font-size: 0.78rem;
+            color: #594a42;
+            margin-top: 2px;
+        }
+
+        .envelope-container {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 20px 0;
+            perspective: 1000px;
+        }
+
+        .envelope {
+            position: relative;
+            width: 280px;
+            height: 180px;
+            background: #c8ad93;
+            background: linear-gradient(135deg, #dfc4ab, #b8977c);
+            border-radius: 0 0 8px 8px;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+            cursor: pointer;
+            transition: transform 0.5s ease;
+            border: 1px solid #a38267;
+        }
+
+        .envelope:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.6);
+        }
+
+        .envelope-flap {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 0;
+            border-left: 140px solid transparent;
+            border-right: 140px solid transparent;
+            border-top: 100px solid #9c7859;
+            transform-origin: top;
+            transition: transform 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 5;
+        }
+
+        .envelope.open .envelope-flap {
+            transform: rotateX(180deg);
+            z-index: 1;
+        }
+
+        .wax-seal {
+            position: absolute;
+            top: 60px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 42px;
+            height: 42px;
+            background: radial-gradient(circle, #b83232, #7a1d1d);
+            border: 2px solid #571212;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #fdf6e2;
+            font-size: 1.1rem;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+            z-index: 10;
+        }
+
+        .letter-content {
+            text-align: left;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            max-height: 210px;
+            overflow-y: auto;
+            font-family: 'Special Elite', monospace;
+            font-size: 0.85rem;
+            line-height: 1.6;
+            color: #3b2f2f;
+            border-left: 4px solid #9c4142;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.03);
+            display: none;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 1s ease-out 0.4s;
+        }
+
+        .letter-content.show {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .scratch-container {
+            background: rgba(184, 150, 114, 0.12);
+            border: 1px dashed #b59b75;
+            padding: 12px;
+            border-radius: 10px;
+            margin-bottom: 12px;
+            text-align: center;
+        }
+        .scratch-box {
+            position: relative;
+            background: linear-gradient(135deg, #9c4142, #d4af37);
+            color: #fdf6e2;
+            padding: 12px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            user-select: none;
+            font-size: 0.85rem;
+            font-family: 'Playfair Display', serif;
+            box-shadow: 0 4px 10px rgba(156, 65, 66, 0.3);
+            transition: 0.3s;
+        }
+        .scratch-box:hover {
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.7);
+        }
+        .scratch-box.revealed {
+            background: #fff;
+            color: #9c4142;
+            border: 1px solid #d1b693;
+        }
+
+        .back-btn {
+            background: transparent;
+            border: 1px solid #b59b75;
+            color: #594a42;
+            padding: 8px 18px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: 0.3s;
+            font-family: 'Special Elite', monospace;
+        }
+
+        .back-btn:hover {
+            background: rgba(181, 155, 117, 0.2);
+            color: #3b2f2f;
+            box-shadow: 0 0 8px rgba(181, 155, 117, 0.5);
+        }
+
+        .top-controls {
+            position: fixed;
+            top: 15px;
+            right: 15px;
+            display: flex;
+            gap: 8px;
+            z-index: 100;
+        }
+        .control-pill {
+            background: rgba(43, 29, 21, 0.85);
+            backdrop-filter: blur(10px);
+            border: 1px solid #8c6d46;
+            padding: 6px 14px;
+            border-radius: 50px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.8rem;
+            color: #f4ebd0;
+            transition: 0.3s;
+            font-family: 'Special Elite', monospace;
+        }
+        .control-pill:hover {
+            background: #9c4142;
+            border-color: #ffd700;
+            box-shadow: 0 0 12px rgba(255, 215, 0, 0.6);
+        }
+
+        .footer-tag {
+            font-family: 'Caveat', cursive;
+            font-size: 1.1rem;
+            color: #8c6d46;
+            margin-top: 10px;
+        }
+
+        .celebration-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(21, 14, 10, 0.96);
+            z-index: 999;
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            text-align: center;
+            color: #fdf6e2;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Ambient Desk Background & Dust -->
+    <div class="desk-bg" id="deskBg"></div>
+
+    <!-- Background Audio -->
+    <audio id="bgMusic" loop>
+        <source src="https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf756.mp3?filename=gentle-piano-love-112141.mp3" type="audio/mp3">
+    </audio>
+
+    <!-- Top Action Pills -->
+    <div class="top-controls">
+        <div class="control-pill" onclick="triggerVibrantTap(event); sendVirtualHug();">
+            <i class="fas fa-hands-holding-heart" style="color: #ff758c;"></i> <span>Hug Me</span>
+        </div>
+        <div class="control-pill" onclick="triggerVibrantTap(event); toggleAudio();">
+            <i class="fas fa-music" id="musicIcon"></i> <span id="musicText">Music</span>
+        </div>
+    </div>
+
+    <!-- Celebration Screen on Final Day (23 Aug) -->
+    <div class="celebration-overlay" id="celebrationScreen">
+        <div class="script-font" style="font-size: 3.5rem;">Welcome back, Afrin! ❤️</div>
+        <p style="margin: 15px 0; font-size: 0.95rem; color: #ebdcc2; font-family: 'Poppins', sans-serif;">Jab tum chutti me aayi ho aur humari fir se baatein ho rahi hain... yeh pal sabse special hai. Chahe tum fir chali jao, par ye yaadein hamesha rahengi.</p>
+        <div style="font-size: 2.5rem; margin: 15px 0;">✨ 💐 💖 ✨</div>
+        <p style="color: #ffd700; font-style: italic; font-family: 'Playfair Display', serif;">"The wait is finally over. Let's make every single moment count!"</p>
+        <button class="btn" style="max-width: 220px; margin-top: 20px;" onclick="triggerVibrantTap(event); closeCelebration();">Read Notes</button>
+    </div>
+
+    <div class="container">
+
+        <!-- SCREEN 1: Password & Welcome with Live Time Counter -->
+        <div class="screen active" id="screen1">
+            <div class="scrapbook-card">
+                <div class="couple-badge">Mahfuz & Afrin ❤️</div>
+                <div class="script-font">Until We Meet Again</div>
+                <p style="margin-top: 5px;">"If you have reached here... it means the wait is over and you are back. ❤️"</p>
+                
+                <div class="live-counter-box">
+                    <div class="live-counter-title">🕒 Journey Across Distance (Since 18 July, 2:52 PM)</div>
+                    <div class="counter-grid">
+                        <div class="counter-item">
+                            <div class="counter-num" id="daysCount">00</div>
+                            <div class="counter-txt">Days</div>
+                        </div>
+                        <div class="counter-item">
+                            <div class="counter-num" id="hoursCount">00</div>
+                            <div class="counter-txt">Hours</div>
+                        </div>
+                        <div class="counter-item">
+                            <div class="counter-num" id="minsCount">00</div>
+                            <div class="counter-txt">Mins</div>
+                        </div>
+                        <div class="counter-item">
+                            <div class="counter-num" id="secsCount">00</div>
+                            <div class="counter-txt">Secs</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin: 5px 0;">
+                    <input type="password" id="passInput" class="input-box" placeholder="">
+                    <button class="btn" onclick="triggerVibrantTap(event); checkPassword();">Open My Heart 💖</button>
+                </div>
+                <p style="font-size: 0.75rem; color: #8c7365;">Only she can enter who holds my heart.</p>
+                <div class="footer-tag">Made with all my love for Afrin ✨</div>
+            </div>
+        </div>
+
+        <!-- SCREEN 2: Calendar Overview (19 July to 23 August) -->
+        <div class="screen" id="screen2">
+            <div class="scrapbook-card">
+                <div class="couple-badge">Mahfuz & Afrin ❤️</div>
+                <h2 style="margin-bottom: 8px;">Journey: 19 July to 23 Aug</h2>
+                
+                <!-- Mood Meter Widget -->
+                <div class="mood-widget">
+                    <div class="mood-title">How Are You Feeling Today?</div>
+                    <div class="mood-emojis">
+                        <span onclick="triggerVibrantTap(event); setMood('happy');">🥰</span>
+                        <span onclick="triggerVibrantTap(event); setMood('missing');">🥺</span>
+                        <span onclick="triggerVibrantTap(event); setMood('sleepy');">😴</span>
+                        <span onclick="triggerVibrantTap(event); setMood('excited');">💖</span>
+                    </div>
+                    <div class="mood-response" id="moodResponseText">Click an emoji to tell me!</div>
+                </div>
+
+                <!-- Journey Timeline Progress Widget -->
+                <div class="journey-widget">
+                    <div class="journey-info">
+                        <span id="journeyStatusText">Journey Progress</span>
+                        <span id="journeyDaysLeftText">0 days left</span>
+                    </div>
+                    <div class="progress-bar" style="margin-bottom: 0;">
+                        <div class="progress-fill" id="journeyProgressBar"></div>
+                    </div>
+                </div>
+
+                <!-- Heart Meter -->
+                <div class="meter-container" style="margin-bottom: 10px;">
+                    <div class="meter-label">
+                        <span>Heart Meter</span>
+                        <span id="heartMeterPercent" style="color: #9c4142;">100% Completed ❤️</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="heartBarFill" style="width: 100%;"></div>
+                    </div>
+                </div>
+
+                <div class="calendar-grid" id="calendarGrid">
+                    <!-- Dynamic Dates from 19 July to 23 Aug -->
+                </div>
+
+                <!-- 2 Action Buttons (Jar & Story) -->
+                <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 8px;">
+                    <button class="btn" onclick="triggerVibrantTap(event); openMemoryJar();" style="background: #594a42; margin:0; font-size: 0.85rem; padding: 10px 5px;">
+                        ✨ Memory Jar
+                    </button>
+                    <button class="btn" onclick="triggerVibrantTap(event); openTimeline();" style="background: #8c6d46; margin:0; font-size: 0.85rem; padding: 10px 5px;">
+                        📜 Love Story
+                    </button>
+                </div>
+                <div class="footer-tag">Forever Yours, Mahfuz & Afrin</div>
+            </div>
+        </div>
+
+        <!-- SCREEN 3: Daily Letter View with Vintage 3D Envelope -->
+        <div class="screen" id="screen3">
+            <div class="scrapbook-card">
+                <div class="couple-badge">Mahfuz & Afrin ❤️</div>
+                <h3 id="letterTitle" style="color: #9c4142; margin-bottom: 10px;">Date</h3>
+                
+                <div class="envelope-container">
+                    <div class="envelope" id="envelopeObj" onclick="triggerVibrantTap(event); openEnvelopeCinematic();">
+                        <div class="envelope-flap"></div>
+                        <div class="wax-seal"><i class="fas fa-heart"></i></div>
+                        <div style="position: absolute; bottom: 35px; width: 100%; text-align: center; color: #3b2f2f; font-size: 0.8rem; font-weight: 600; font-family: 'Special Elite', monospace;">Tap Wax Seal to Open 💌</div>
+                    </div>
+                </div>
+
+                <div class="letter-content" id="letterBody"></div>
+
+                <div id="letterNavButtons" style="display: none; display: flex; gap: 8px; margin-top: 15px;">
+                    <button class="back-btn" onclick="triggerVibrantTap(event); backToCalendar();" style="flex: 1;"><i class="fas fa-arrow-left"></i> Go Back</button>
+                    <button class="btn" id="nextDateBtn" onclick="triggerVibrantTap(event); openNextDate();" style="flex: 1; margin: 0; background: #9c4142; font-size: 0.85rem; padding: 8px 10px; display: flex; align-items: center; justify-content: center; gap: 6px;">
+                        <span style="font-size: 1rem;">🔏</span> <span id="nextDateBtnText">Next Date</span>
+                    </button>
+                </div>
+
+                <button class="back-btn" id="defaultBackBtn" onclick="triggerVibrantTap(event); backToCalendar();" style="margin-top: 10px;"><i class="fas fa-arrow-left"></i> Go Back</button>
+            </div>
+        </div>
+
+        <!-- SCREEN 4: Memory Jar -->
+        <div class="screen" id="screen4">
+            <div class="scrapbook-card">
+                <div class="couple-badge">Mahfuz & Afrin ❤️</div>
+                <div class="script-font">Memory Jar</div>
+                <p style="font-size: 0.85rem;">"When we used to talk for hours... our precious memories are stored right here."</p>
+                
+                <div class="scratch-container">
+                    <div class="scratch-box" id="scratchCard" onclick="triggerVibrantTap(event); revealScratchCard();">
+                        🎁 Tap to Scratch Today's Secret Note!
+                    </div>
+                </div>
+
+                <div class="letter-content" style="text-align: center; font-style: italic; color: #9c4142; display: block;" id="jarMemoryText">
+                    "Click below to pull out a memory ❤️"
+                </div>
+                <button class="btn" onclick="triggerVibrantTap(event); getRandomMemory();" style="margin-bottom: 15px;">Draw a Memory 📜</button>
+                <button class="back-btn" onclick="triggerVibrantTap(event); backToCalendar();">Go Back</button>
+            </div>
+        </div>
+
+        <!-- SCREEN 5: Love Story Timeline -->
+        <div class="screen" id="screen5">
+            <div class="scrapbook-card">
+                <div class="couple-badge">Mahfuz & Afrin ❤️</div>
+                <h2>Our Love Story 📜</h2>
+                <p style="font-size: 0.8rem; margin-bottom: 10px;">The milestones of our beautiful journey...</p>
+                
+                <div class="timeline-container">
+                    <div class="timeline-item">
+                        <div class="timeline-date">08 July 2024</div>
+                        <div class="timeline-title">💗 The Beginning — Pehli Baar</div>
+                        <div class="timeline-desc">08 July 2024… woh din jab hum pehli baar mile aur pehli baar baat hui. Us waqt shayad humein bilkul idea nahi tha ki ye chhoti si conversation ek din hamari itni beautiful story ban jayegi. ❤️</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-date">09 July 2024</div>
+                        <div class="timeline-title">🎧 Pehli Baar Awaaz</div>
+                        <div class="timeline-desc">09 July ko pehli baar humne ek dusre ki awaaz suni. Sirf ek awaaz thi… lekin us awaaz mein kuch aisa tha jo dil ko achha laga. Us din se baatein sirf baatein nahi rahi… har call ke saath ek naya connection banta gaya. 🥹❤️</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-date">11 July 2024</div>
+                        <div class="timeline-title">📱 Pehli Baar Video Call</div>
+                        <div class="timeline-desc">11 July 2024… pehli baar video call par ek dusre ko dekha. Tumhe screen par dekhna, tumhari smile notice karna aur tumse baat karte rehna… woh moment chhota tha, lekin hamari story ke liye bahut special tha. ✨</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-date">15 February 2026</div>
+                        <div class="timeline-title">🫶🏻 Pehli Baar Saamne</div>
+                        <div class="timeline-desc">15 February 2026… hamari story ka woh din jo hamesha special rahega. Pehli baar tumhe apni aankhon ke saamne dekha, aankhon mein aankhein daali aur pehli baar tumhara haath apne haathon mein thaama. 🥹❤️</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-date">Present Day</div>
+                        <div class="timeline-title">♾️ More Memories To Come</div>
+                        <div class="timeline-desc">Pehle hum bas do log the jo ek dusre se baat karte the… phir pata hi nahi chala kab “Me & You” se “Us” ban gaye. Ye ending nahi, bas beginning hai! 🫶🏻❤️</div>
+                    </div>
+                </div>
+
+                <button class="back-btn" onclick="triggerVibrantTap(event); backToCalendar();">Go Back</button>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // Live Time Counter Logic (18 July 2026, 2:52 PM se ab tak)
+        const startDateCounter = new Date(2026, 6, 18, 14, 52, 0);
+
+        function updateLiveCounter() {
+            const now = new Date();
+            const diff = now - startDateCounter;
+
+            if (diff > 0) {
+                const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+                const mins = Math.floor((diff / 1000 / 60) % 60);
+                const secs = Math.floor((diff / 1000) % 60);
+
+                document.getElementById('daysCount').innerText = String(days).padStart(2, '0');
+                document.getElementById('hoursCount').innerText = String(hours).padStart(2, '0');
+                document.getElementById('minsCount').innerText = String(mins).padStart(2, '0');
+                document.getElementById('secsCount').innerText = String(secs).padStart(2, '0');
+            }
+        }
+        setInterval(updateLiveCounter, 1000);
+        updateLiveCounter();
+
+        // Ambient Dust Particles
+        const deskBg = document.getElementById('deskBg');
+        for (let i = 0; i < 40; i++) {
+            const particle = document.createElement('div');
+            particle.classList.add('dust-particle');
+            particle.style.width = `${Math.random() * 3 + 1}px`;
+            particle.style.height = particle.style.width;
+            particle.style.top = `${Math.random() * 100}%`;
+            particle.style.left = `${Math.random() * 100}%`;
+            particle.style.animationDuration = `${4 + Math.random() * 4}s`;
+            particle.style.animationDelay = `${Math.random() * 3}s`;
+            deskBg.appendChild(particle);
+        }
+
+        // Tap Sparkle Effect
+        function triggerVibrantTap(event) {
+            const x = event.clientX || (event.touches && event.touches[0].clientX) || window.innerWidth / 2;
+            const y = event.clientY || (event.touches && event.touches[0].clientY) || window.innerHeight / 2;
+
+            confetti({
+                particleCount: 15,
+                spread: 70,
+                origin: { x: x / window.innerWidth, y: y / window.innerHeight },
+                colors: ['#ff758c', '#ffd700', '#ffeb3b', '#ff416c', '#ffffff']
+            });
+        }
+
+        // Audio Control
+        const bgMusic = document.getElementById('bgMusic');
+        const musicIcon = document.getElementById('musicIcon');
+        const musicText = document.getElementById('musicText');
+        let isPlaying = false;
+
+        function toggleAudio() {
+            if (isPlaying) {
+                bgMusic.pause();
+                musicIcon.className = "fas fa-music";
+                musicText.innerText = "Music";
+            } else {
+                bgMusic.play().then(() => {
+                    musicIcon.className = "fas fa-pause";
+                    musicText.innerText = "Pause";
+                }).catch(e => console.log("Audio autoplay restriction: ", e));
+            }
+            isPlaying = !isPlaying;
+        }
+
+        function sendVirtualHug() {
+            triggerLetterConfetti();
+            alert("🤗 A big, warm, tight virtual hug sent straight from Mahfuz to Afrin! ✨");
+        }
+
+        function checkPassword() {
+            const pass = document.getElementById('passInput').value.trim().toLowerCase();
+            if (pass === "afrin") { 
+                document.getElementById('screen1').classList.remove('active');
+                document.getElementById('screen2').classList.add('active');
+                
+                bgMusic.play().then(() => {
+                    isPlaying = true;
+                    musicIcon.className = "fas fa-pause";
+                    musicText.innerText = "Pause";
+                }).catch(e => console.log("Audio block"));
+
+                updateJourneyWidget(); 
+            } else {
+                alert('Incorrect password! Please type "afrin" ❤️');
+            }
+        }
+
+        function setMood(mood) {
+            const resElem = document.getElementById('moodResponseText');
+            if(mood === 'happy') {
+                resElem.innerText = "Your smile is my greatest happiness, Afrin! Keep smiling! 🥰";
+            } else if(mood === 'missing') {
+                resElem.innerText = "Main bhi aapko bohot miss kar raha hoon. Bas thoda sa sabr, my love! 🥺";
+            } else if(mood === 'sleepy') {
+                resElem.innerText = "Get some rest with sweet dreams, I'll meet you in your dreams! 😴";
+            } else if(mood === 'excited') {
+                resElem.innerText = "Yay! Seeing this energy made my day! 💖";
+            }
+            triggerLetterConfetti();
+        }
+
+        const scratchNotes = [
+            "Secret Note: You are the cutest and most caring partner in the world, Afrin! ❤️",
+            "Secret Note: Every single morning of mine begins with your thought, from Mahfuz! ✨",
+            "Secret Note: When you laugh, it feels like I've gained all the happiness! 🌹",
+            "Secret Note: No matter how far the distance, my heart is always right beside you! 💌"
+        ];
+        function revealScratchCard() {
+            const card = document.getElementById('scratchCard');
+            const randomNote = scratchNotes[Math.floor(Math.random() * scratchNotes.length)];
+            card.classList.add('revealed');
+            card.innerHTML = randomNote;
+            triggerLetterConfetti();
+        }
+
+        // 36 Unique Romantic Messages (19 July 2026 to 23 August 2026)
+        const dailyMessages = [
+            /* 19 Jul */ "19 July — Is naye safar ka pehla din. Tumhe alvida kehna aasan nahi tha, lekin dil mein yeh tasalli hai ki yeh doori humare rishte ko aur gehra banayegi. Pehla din zaroor thoda bhari lag raha hai, par meri har dua tumhare sath chal rahi hai, Afrin.",
+            /* 20 Jul */ "20 July — Subah uthte hi sabse pehle tumhara hi khayal aaya. Aadat si ho gayi hai tumhare sath din shuru karne ki. Chahe tum kitni bhi door kyu na ho, mere har lamhe par sirf aur sirf tumhara hi haq hai.",
+            /* 21 Jul */ "21 July — Raat ko taaron ko dekhte hue bas yahi soch raha tha ki kya tum bhi is waqt asmaan dekh rahi ho? Hamari manzil ek hai, dil ek hai, bas thode dino ka fasla hai jo jald hi mit jayega.",
+            /* 22 Jul */ "22 July — Tumhari wo pyaari si aawaz aur hasi mere zehan mein goonjti rehti hai. Jab bhi phone bajta hai, dil chahta hai tumhara hi naam screen par chamak raha ho. Tum meri zindagi ka sabse khubsurat sukoon ho.",
+            /* 23 Jul */ "23 July — Har guzarne wala ghanta hume ek dusre ke aur qareeb la raha hai. Intezaar meetha lagne lagta hai jab pata ho ki aakhir mein mera sabse pyara tohfa — tumhara sath milne wala hai.",
+            /* 24 Jul */ "24 July — Ek hafta poora hone ko aaya hai. Door rehkar aur zyada ehsaas hota hai ki tum meri zindagi mein kitni ahmiyat rakhti ho. Khud ka poora dhyan rakhna, meri jaan.",
+            /* 25 Jul */ "25 July — Aaj mausam bahut pyara hai, bilkul waisa jaise tumhari presence mere din ko roshan kar deti hai. Tumhari chhoti chhoti baatein aur nakhre mujhe bohot yaad aate hain.",
+            /* 26 Jul */ "26 July — Zindagi ki is daud mein tumhara khayal aate hi dil shaant ho jata hai. Tum meri taaqat ho, Afrin. Yeh faasle hamari mohabbat ki gehrai ke samne kuch bhi nahi.",
+            /* 27 Jul */ "27 July — Purani chats aur purane lamho ko yaad karke akele mein muskura lena ab meri aadat ban gayi hai. Tum jahan bhi ho, hamesha aise hi khush rehna.",
+            /* 28 Jul */ "28 July — Log kehte hain doori dilon ko juda karti hai, par hamare case mein yeh har din hume rooh se aur zyada jod rahi hai. You are truly my better half.",
+            /* 29 Jul */ "29 July — Aaj thodi thakan zyada thi, par bas 2 minute tumhari aawaz sun kar saara stress gayab ho gaya. Tum sach me mere liye ek jaadu ki tarah ho.",
+            /* 30 Jul */ "30 July — July ka mahina khatam hone ko hai. Har din ek step aage badh raha hai humare milne ki taraf. Bas aise hi himmat banaye rakhna, hum bohot jald sath honge.",
+            /* 31 Jul */ "31 July — July ka aakhri din! Ek poora phase humne paar kar liya. Tum meri wo khwahish ho jo har roz pehle se zyada shiddat ke sath mangi jati hai.",
+            /* 01 Aug */ "01 August — Welcome to August! Wo mahina jisme humara intezaar apne aakhri padav par hoga. Dil mein ek ajeeb si khushi aur excitement shuru ho chuki hai.",
+            /* 02 Aug */ "02 August — Tumhare bina yeh din thode khali lagte hain, par yeh khali-pan bhi tumhare aane ki umeed se bhara hua hai. Tumse bepanah mohabbat karta hoon.",
+            /* 03 Aug */ "03 August — Aaj achanak wo din yaad aaya jab humne ghanto bina thake baat ki thi. Waqt ka pata hi nahi chalta tha. Kitni khoobsurat baatein hoti hain humari.",
+            /* 04 Aug */ "04 August — Bas apna khayal rakhna aur time par khana khana. Tumhari sehat aur tumhari smile mere liye duniya ki har cheez se zyada zaroori hai.",
+            /* 05 Aug */ "05 August — Har shaam dhalne ke sath main ek din calendar par cross karta hoon aur muskurata hoon ki ek aur din kam ho gaya hamare fasle ka.",
+            /* 06 Aug */ "06 August — Tum mere dil ki har dhadkan mein basi hui ho, Afrin. Distance matter hi nahi karta jab rooh ek dusre se bandhi ho.",
+            /* 07 Aug */ "07 August — Aadhi se zyada journey humne successfully poori kar li hai! You are doing amazing, and I am always right here cheering for us.",
+            /* 08 Aug */ "08 August — Aaj 8 August hai... har 8 tareekh hume humari shuruat ki yaad dilati hai. Kitna haseen tha wo din aur kitna khoobsurat hai aaj ka yeh rishta.",
+            /* 09 Aug */ "09 August — Tumhari awaz ki wo pehli call aaj bhi mere dil ke sabse kareeb hai. Waqt kitni tezi se beeta aur humara pyar kitna mature hota gaya.",
+            /* 10 Aug */ "10 August — Ab countdown bohot chota bacha hai! Bas thode din aur aur humara yeh digital diary safar ek reality ban jayega.",
+            /* 11 Aug */ "11 August — Jab tum muskuraati ho toh lagta hai jaise duniya ki saari khoobsurti bas tumhare chehre par thehar gayi hai. Hamesha aise hi chamakti rehna.",
+            /* 12 Aug */ "12 August — Door rehkar sabr karna hum dono ne seekh liya hai. Aur yeh sabr jab meethe phal mein badlega toh wo lamha lajawab hoga.",
+            /* 13 Aug */ "13 August — Aaj din bhar bas tumhare aane par kya kya baatein karni hain, wahi plan karta raha. So many stories to tell you in person!",
+            /* 14 Aug */ "14 August — 10 din se bhi kam bache hain! Dil ki excitement ab control se bahar ho rahi hai. Counting down the moments with every breath.",
+            /* 15 Aug */ "15 August — Aaj ka din azadi ka aur hamari pyari yaadon ka hai. Tum mere dil ki wo aisi kaid ho jisse main kabhi riha nahi hona chahta.",
+            /* 16 Aug */ "16 August — Har guzarta hua pal ab ek celebration jaisa lag raha hai kyunki manzil bilkul saamne dikh rahi hai. Stay blessed and happy, my love.",
+            /* 17 Aug */ "17 August — Ek ek din jaise tezi se nikal raha hai. Tumse milne ka yeh nasha mere sar par chhadhta ja raha hai.",
+            /* 18 Aug */ "18 August — Poora ek mahina ho gaya us 18 July ke baad se! Humne yeh poora distance kitni khubsurti aur understanding ke sath handle kiya hai. Proud of us!",
+            /* 19 Aug */ "19 August — Sirf 4 din bache hain! Ab toh raaton ko neend bhi kam aane lagi hai excitement ki wajah se. Bas tumhara intezaar hai.",
+            /* 20 Aug */ "20 August — Sirf 3 din door! Har pal bas yahi dua hai ki waqt thoda aur tez bhaage aur hum fir se ek sath baithe hon.",
+            /* 21 Aug */ "21 August — Day after tomorrow is almost here! Mera dil bas tumhare kadmo ki aahat sunne ko bekarar hai, Afrin.",
+            /* 22 Aug */ "22 August — Kal aakhri din hai! Sabr ka yeh imtihaan ab poora ho chuka hai. Tum mere liye kya ho, yeh shabdo mein bayaan karna namumkin hai.",
+            /* 23 Aug */ "23 August — Aaj 23 August hai! The wait is officially over. Tum wapas aa gayi ho aur yeh meri zindagi ka sabse khoobsurat din hai. All my love belongs solely to you, Afrin! ❤️"
+        ];
+
+        // Generate Dates from 19 July 2026 to 23 August 2026 (36 days total)
+        const journeyDates = [];
+        let currDate = new Date(2026, 6, 19); 
+        const endDate = new Date(2026, 7, 23);   
+
+        while (currDate <= endDate) {
+            journeyDates.push(new Date(currDate));
+            currDate.setDate(currDate.getDate() + 1);
+        }
+
+        function updateJourneyWidget() {
+            const now = new Date();
+            const start = new Date(2026, 6, 19);
+            const end = new Date(2026, 7, 23, 23, 59, 59);
+
+            const totalDuration = end - start;
+            const elapsed = now - start;
+
+            let percentage = Math.floor((elapsed / totalDuration) * 100);
+            if (percentage < 0) percentage = 0;
+            if (percentage > 100) percentage = 100;
+
+            const daysLeft = Math.ceil((end - now) / (1000 * 60 * 60 * 24));
+
+            document.getElementById('journeyProgressBar').style.width = percentage + '%';
+            document.getElementById('heartBarFill').style.width = percentage + '%';
+            document.getElementById('heartMeterPercent').innerText = percentage + '% Completed ❤️';
+
+            if (daysLeft > 0) {
+                document.getElementById('journeyStatusText').innerText = `Journey Progress (${percentage}%)`;
+                document.getElementById('journeyDaysLeftText').innerText = `${daysLeft} days left`;
+            } else {
+                document.getElementById('journeyStatusText').innerText = `Journey Completed! 🎉`;
+                document.getElementById('journeyDaysLeftText').innerText = `Reunited ❤️`;
+            }
+        }
+
+        const calendarGrid = document.getElementById('calendarGrid');
+        journeyDates.forEach((dateObj, index) => {
+            const btn = document.createElement('div');
+            btn.classList.add('day-btn');
+            
+            const options = { day: 'numeric', month: 'short' };
+            const dateStr = dateObj.toLocaleDateString('en-GB', options);
+            
+            const isLastDay = (index === journeyDates.length - 1);
+            if(isLastDay) btn.classList.add('special-day');
+            
+            btn.innerHTML = `<i class="fas fa-heart"></i><span>${dateStr}</span>`;
+            
+            btn.onclick = (e) => {
+                triggerVibrantTap(e);
+                if(isLastDay) {
+                    document.getElementById('celebrationScreen').style.display = 'flex';
+                    triggerConfettiBurst();
+                }
+                openDayLetter(index);
+            };
+            calendarGrid.appendChild(btn);
+        });
+
+        let activeIndex = 0;
+        let activeFullText = "";
+        let typewriterTimer;
+
+        function openDayLetter(index) {
+            activeIndex = index;
+            document.getElementById('screen2').classList.remove('active');
+            document.getElementById('screen3').classList.add('active');
+            
+            const dateObj = journeyDates[index];
+            const options = { day: 'numeric', month: 'short' };
+            const dateStr = dateObj.toLocaleDateString('en-GB', options);
+            const isLastDay = (index === journeyDates.length - 1);
+
+            document.getElementById('letterTitle').innerText = isLastDay ? `23 Aug - Welcome Back Afrin ❤️` : `Date: ${dateStr} - Love Note`;
+            
+            const envelopeObj = document.getElementById('envelopeObj');
+            envelopeObj.classList.remove('open');
+            envelopeObj.style.display = 'block';
+            envelopeObj.style.pointerEvents = 'auto';
+
+            const bodyElem = document.getElementById('letterBody');
+            bodyElem.innerHTML = "";
+            bodyElem.classList.remove('show');
+
+            document.getElementById('letterNavButtons').style.display = 'none';
+            document.getElementById('defaultBackBtn').style.display = 'inline-block';
+            
+            const customMsg = dailyMessages[index] || "I love you forever and always, Afrin.";
+            activeFullText = `💌 Message:\n${customMsg}\n\n"Love you Afrin ❤️"`;
+        }
+
+        function openEnvelopeCinematic() {
+            const envelopeObj = document.getElementById('envelopeObj');
+            envelopeObj.classList.add('open');
+            envelopeObj.style.pointerEvents = 'none';
+
+            triggerLetterConfetti();
+
+            setTimeout(() => {
+                envelopeObj.style.display = 'none';
+
+                const bodyElem = document.getElementById('letterBody');
+                bodyElem.classList.add('show');
+                bodyElem.innerHTML = "";
+
+                document.getElementById('letterNavButtons').style.display = 'flex';
+                document.getElementById('defaultBackBtn').style.display = 'none';
+
+                const nextBtn = document.getElementById('nextDateBtn');
+                const nextBtnText = document.getElementById('nextDateBtnText');
+                
+                if (activeIndex < journeyDates.length - 1) {
+                    const nextDateObj = journeyDates[activeIndex + 1];
+                    const options = { day: 'numeric', month: 'short' };
+                    const nextDateStr = nextDateObj.toLocaleDateString('en-GB', options);
+                    nextBtnText.innerText = `Next Date (${nextDateStr})`;
+                    nextBtn.style.display = 'flex';
+                } else {
+                    nextBtn.style.display = 'none';
+                }
+
+                let i = 0;
+                clearInterval(typewriterTimer);
+                typewriterTimer = setInterval(() => {
+                    if (i < activeFullText.length) {
+                        bodyElem.innerHTML += activeFullText.charAt(i) === '\n' ? '<br>' : activeFullText.charAt(i);
+                        i++;
+                    } else {
+                        clearInterval(typewriterTimer);
+                    }
+                }, 25);
+            }, 1000);
+        }
+
+        function openNextDate() {
+            if (activeIndex < journeyDates.length - 1) {
+                openDayLetter(activeIndex + 1);
+                openEnvelopeCinematic();
+            }
+        }
+
+        function triggerLetterConfetti() {
+            confetti({
+                particleCount: 25,
+                spread: 60,
+                origin: { y: 0.7 },
+                colors: ['#9c4142', '#ffd700', '#fdf6e2', '#d4af37']
+            });
+        }
+
+        function triggerConfettiBurst() {
+            var duration = 3 * 1000;
+            var end = Date.now() + duration;
+
+            (function frame() {
+                confetti({
+                    particleCount: 4,
+                    angle: 60,
+                    spread: 55,
+                    origin: { x: 0 },
+                    colors: ['#9c4142', '#ffd700', '#fdf6e2']
+                });
+                confetti({
+                    particleCount: 4,
+                    angle: 120,
+                    spread: 55,
+                    origin: { x: 1 },
+                    colors: ['#9c4142', '#ffd700', '#fdf6e2']
+                });
+
+                if (Date.now() < end) {
+                    requestAnimationFrame(frame);
+                }
+            }());
+        }
+
+        function backToCalendar() {
+            clearInterval(typewriterTimer);
+            document.getElementById('screen3').classList.remove('active');
+            document.getElementById('screen4').classList.remove('active');
+            document.getElementById('screen5').classList.remove('active');
+            document.getElementById('screen2').classList.add('active');
+            updateJourneyWidget();
+        }
+
+        function openMemoryJar() {
+            document.getElementById('screen2').classList.remove('active');
+            document.getElementById('screen4').classList.add('active');
+        }
+
+        function openTimeline() {
+            document.getElementById('screen2').classList.remove('active');
+            document.getElementById('screen5').classList.add('active');
+        }
+
+        function closeCelebration() {
+            document.getElementById('celebrationScreen').style.display = 'none';
+        }
+
+        const memories = [
+            "Remember when we talked on 18 July at 2:52 PM and my heart belonged solely to you?",
+            "Remember the late night calls when we felt so close despite being miles apart?",
+            "Remember the everyday wait that brought us to this beautiful day of August 23.",
+            "Remember your sweet smile that washes away all my stress in a single moment."
+        ];
+
+        function getRandomMemory() {
+            const randomMem = memories[Math.floor(Math.random() * memories.length)];
+            document.getElementById('jarMemoryText').innerText = `"${randomMem}"`;
+            triggerLetterConfetti();
+        }
+    </script>
+</body>
+</html>
+
