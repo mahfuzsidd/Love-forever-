@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Afrin ❤️ Mahfuz | 2nd Anniversary</title>
+    <title>Afrin ❤️ Mahfuz</title>
     <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Dancing+Script:wght@700&family=Noto+Nastaliq+Urdu&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <style>
@@ -26,7 +26,7 @@
             position: relative;
         }
 
-        /* --- BACKGROUND FLOATING PHOTOS (From Sheet) --- */
+        /* --- BACKGROUND FLOATING PHOTOS --- */
         #bgPhotos {
             position: fixed; inset: 0; z-index: 0;
             display: grid; grid-template-columns: repeat(4, 1fr);
@@ -38,21 +38,31 @@
             border-radius: 5px; border: 1px solid var(--border);
         }
 
-        /* Header & Footer (Fixed as yours) */
-        header { position: fixed; top: 0; width: 100%; padding: 15px; z-index: 1000; display: flex; justify-content: center; }
+        /* --- HEADER & NAVIGATION --- */
+        header { position: fixed; top: 0; width: 100%; padding: 10px 15px; z-index: 1000; display: flex; justify-content: center; }
         .royal-header {
-            width: 95%; max-width: 500px; background: rgba(255,255,255,0.05);
-            border: 1px solid var(--gold); border-radius: 50px; padding: 10px 20px;
+            width: 95%; max-width: 520px; background: rgba(255,255,255,0.05);
+            border: 1px solid var(--gold); border-radius: 50px; padding: 8px 15px;
             backdrop-filter: blur(15px); display: flex; justify-content: space-between; align-items: center;
         }
-        .royal-header h2 { font-family: 'Dancing Script', cursive; color: var(--gold); font-size: 1.2rem; }
+        .nav-tabs { display: flex; gap: 6px; }
+        .nav-btn {
+            background: transparent; border: 1px solid transparent;
+            color: #ddd; padding: 6px 12px; border-radius: 20px;
+            font-size: 11px; cursor: pointer; transition: 0.3s; font-weight: 600;
+            text-decoration: none; display: inline-flex; align-items: center;
+        }
+        .nav-btn.active {
+            background: var(--gold); color: #000; font-weight: bold;
+            box-shadow: 0 0 10px rgba(255, 215, 0, 0.4);
+        }
 
         footer { 
             position: fixed; bottom: 0; width: 100%; padding: 10px; 
             background: rgba(0,0,0,0.8); backdrop-filter: blur(10px); 
             text-align: center; border-top: 1px solid var(--border); z-index: 1000;
         }
-        .f-text { font-family: 'Dancing Script', cursive; color: #fff; font-size: 1.4rem; }
+        .f-text { font-family: 'Dancing Script', cursive; color: #fff; font-size: 1.3rem; }
         .f-date { color: var(--gold); font-size: 10px; letter-spacing: 2px; font-weight: 600; }
 
         /* --- PHOTO CONTAINER (Reels Style) --- */
@@ -92,19 +102,266 @@
             font-weight: 700;
         }
 
-        /* Main Card Responsive (as yours) */
+        /* --- MAIN CARDS --- */
         .main-container {
-            position: relative; top: 80px; width: 90%; max-width: 400px;
-            height: calc(100vh - 220px); min-height: 400px;
-            background: var(--card-glass); backdrop-filter: blur(25px);
+            position: relative; top: 75px; width: 90%; max-width: 400px;
+            height: calc(100vh - 200px); min-height: 420px;
+            background: rgba(255,255,255,0.03); backdrop-filter: blur(25px);
             border: 1px solid var(--border); border-radius: 30px;
             padding: 20px; z-index: 10;
             display: flex; flex-direction: column; overflow: hidden;
             box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
 
-        /* Typewriter Note Box (as yours) */
+        /* Typewriter Note Box */
         #noteBox {
+            display: none; height: 100%; overflow-y: auto; padding: 25px;
+            background-color: var(--paper); border-radius: 5px;
+            font-family: 'Courier Prime', monospace; 
+            color: #2c2c2c; line-height: 1.6; font-size: 14px;
+            box-shadow: inset 0 0 40px rgba(0,0,0,0.1);
+            background-image: linear-gradient(rgba(0,0,0,0.05) 1px, transparent 1px);
+            background-size: 100% 1.6em;
+        }
+        .hl-ink { color: #b00; font-weight: bold; }
+        .urdu-ink { 
+            direction: rtl; text-align: right; font-family: 'Noto Nastaliq Urdu', serif; 
+            font-size: 17px; margin-top: 15px; border-top: 1px dashed #999; padding-top: 10px;
+        }
+
+        /* Quiz Buttons */
+        .q-text { color: #fff; text-align: center; font-size: 1.05rem; margin-bottom: 20px; min-height: 55px; font-weight: 600; }
+        .opt-btn { 
+            background: rgba(255,255,255,0.08); border: 1px solid var(--border);
+            border-radius: 12px; color: #fff; padding: 12px; text-align: center;
+            margin-bottom: 10px; cursor: pointer; transition: 0.2s; font-size: 14px;
+        }
+        .opt-btn:active { background: var(--primary); }
+
+        #downloadBtn {
+            display: none; position: fixed; bottom: 75px; z-index: 1100;
+            background: var(--gold); color: #000; border: none; padding: 10px 22px;
+            border-radius: 50px; font-weight: bold; font-size: 12px; cursor: pointer;
+        }
+
+        /* Animation */
+        .shake { animation: shakeAnim 0.3s ease-in-out; }
+        @keyframes shakeAnim { 0%, 100% {transform:translateX(0);} 25% {transform:translateX(-5px);} 75% {transform:translateX(5px);} }
+        .bomb-particle { position: fixed; pointer-events: none; width: 6px; height: 6px; background: var(--primary); border-radius: 50%; z-index: 3000; animation: p-fly 0.6s ease-out forwards; }
+        @keyframes p-fly { to { transform: translate(var(--x), var(--y)); opacity: 0; } }
+
+        #welcomeScreen { position: fixed; inset: 0; background: var(--bg); z-index: 10000; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 20px; }
+    </style>
+</head>
+<body>
+
+    <div id="bgPhotos"></div>
+
+    <div id="welcomeScreen">
+        <h1 style="color:white; font-family:'Dancing Script'; font-size:3.2rem; margin-bottom: 10px;">Afrin ❤️ Mahfuz</h1>
+        <p style="color:var(--gold); font-size: 13px; letter-spacing: 1px;">Welcome to Our Special Journey</p>
+        <button onclick="startApp()" style="margin-top:35px; background:var(--primary); border:none; color:white; padding:15px 45px; border-radius:50px; cursor:pointer; font-weight:bold; font-size: 15px;">Open Page</button>
+    </div>
+
+    <audio id="bgMusic" loop><source src="https://files.catbox.moe/v38a2t.mp3" type="audio/mpeg"></audio>
+
+    <header>
+        <div class="royal-header">
+            <div class="nav-tabs">
+                <button class="nav-btn active" id="tabAnniversary" onclick="switchTab('anniversary')">🌹 Anniversary</button>
+                <!-- Yahan link update kar diya gaya hai -->
+                <a href="aug2026.html" class="nav-btn" id="tabAug">📅 Aug 2026</a>
+            </div>
+            <button class="opt-btn" style="padding:5px 12px; font-size:11px; background:var(--gold); color:black; margin:0; border-radius:20px;" onclick="openPhotoPage()">Yaadein 📸</button>
+        </div>
+    </header>
+
+    <div id="photoPage">
+        <button id="closePhotos" onclick="closePhotoPage()">×</button>
+        <div id="reelsContainer"></div>
+    </div>
+
+    <!-- ANNIVERSARY VIEW CONTAINER -->
+    <div class="main-container" id="anniversaryContainer">
+        <div id="quiz">
+            <p style="color:var(--primary); text-align:center; font-size:10px; font-weight:bold; letter-spacing:3px; margin-bottom:10px;">STEP <span id="stepNum">1</span>/7</p>
+            <div class="q-text" id="qBody">Loading...</div>
+            <div id="optsGrid"></div>
+        </div>
+        <div id="noteBox"></div>
+    </div>
+
+    <button id="downloadBtn" onclick="downloadLetter()">📥 DOWNLOAD AS PDF</button>
+
+    <div id="passModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.95); z-index:10000; align-items:center; justify-content:center; padding:20px;">
+        <div style="background:#1a0212; border:1px solid var(--gold); padding:30px; border-radius:20px; width:100%; max-width:320px; text-align:center;">
+            <p id="passQ" style="color:var(--gold); margin-bottom:20px; font-family:'Dancing Script'; font-size:1.8rem;"></p>
+            <input type="text" id="passInput" placeholder="Mahfuz's memory check..." style="width:100%; padding:15px; border-radius:10px; border:none; margin-bottom:20px; text-align:center; font-size:18px; outline:none; background: rgba(255,255,255,0.1); color:white;">
+            <button onclick="checkPass()" style="width:100%; background:var(--primary); color:white; border:none; padding:15px; border-radius:10px; font-weight:bold; font-size:15px;">Unlock Memory</button>
+        </div>
+    </div>
+
+    <footer>
+        <div class="f-text" id="footerText">Mahfuz Siddiqui ❤️ Afrin</div>
+        <div class="f-date" id="footerDate">MAY 08, 2026 • 2 YEARS OF TOGETHERNESS</div>
+    </footer>
+
+    <script>
+        const audio = document.getElementById('bgMusic');
+        let currentStep = 0;
+        
+        const sheetCSV = "https://docs.google.com/spreadsheets/d/1MYhbK8pb_LIkh9yxmMrfmgQpf4cCP-CBs-diT-mZXlA/export?format=csv";
+
+        const quizData = [
+            {q:"Who has loved you more than life for 2 years? ❤️", a:"Mahfuz", opts:["Mahfuz", "A Random Boy", "A Movie Star"], pq:"Which month was Mahfuz born in?", pa:"december"},
+            {q:"Where is Mahfuz's safest place to be? 💖", a:"In Afrin's Heart", opts:["In Afrin's Heart", "At Home", "Office"], pq:"Which city does Mahfuz live in?", pa:"mumbai"},
+            {q:"Who is the brightest moon of my dark nights? ✨", a:"Afrin", opts:["Afrin", "The Real Moon", "Hollywood Stars"], pq:"Mahfuz's favorite cricket league?", pa:"pcl"},
+            {q:"What is our biggest achievement in these 2 years? 🌹", a:"Being Together", opts:["Being Together", "Winning a Lottery", "Buying a Car"], pq:"Mahfuz's home state?", pa:"bihar"},
+            {q:"Who is the real queen of my universe? 👑", a:"Afrin, My Love", opts:["Afrin, My Love", "Historical Queen", "An Angel"], pq:"What is Mahfuz's degree?", pa:"bms"},
+            {q:"How long will we stay by each other's side? 🥰", a:"Until Forever", opts:["Until Forever", "Few Years", "Until Next Month"], pq:"Mahfuz's company name?", pa:"absli"},
+            {q:"Do you know how much Mahfuz loves you? ❤️", a:"Infinity", opts:["Infinity", "A Lot", "A Little"], pq:"Mahfuz loves Afrin to...?", pa:"infinity"}
+        ];
+
+        function startApp() { 
+            document.getElementById('welcomeScreen').style.display='none'; 
+            audio.play().catch(() => console.log('Audio autoplay prevented')); 
+            fetchSheetsData(); 
+            loadQuiz(); 
+        }
+
+        async function fetchSheetsData() {
+            try {
+                const res = await fetch(sheetCSV);
+                const text = await res.text();
+                const rows = text.split('\n').slice(1);
+                
+                const bgCont = document.getElementById('bgPhotos');
+                const reelsCont = document.getElementById('reelsContainer');
+                
+                rows.forEach((row, i) => {
+                    const columns = row.split(',');
+                    const url = columns[0] ? columns[0].trim() : "";
+                    const caption = columns[1] ? columns[1].trim() : "Hamari Yaad";
+
+                    if(url && url.startsWith('http')) {
+                        if(i < 20) {
+                            bgCont.innerHTML += `<img src="${url}" class="bg-photo">`;
+                        }
+                        
+                        reelsCont.innerHTML += `
+                            <div class="photo-container">
+                                <div class="polaroid">
+                                    <img src="${url}">
+                                    <p>${caption}</p>
+                                </div>
+                            </div>`;
+                    }
+                });
+            } catch(e) {
+                console.error("Error loading sheet data:", e);
+                document.getElementById('reelsContainer').innerHTML = "<p style='color:white; text-align:center; padding-top:100px;'>Could not load photos.</p>";
+            }
+        }
+
+        function openPhotoPage() {
+            document.getElementById('photoPage').style.display = 'flex';
+            audio.pause();
+        }
+        function closePhotoPage() {
+            document.getElementById('photoPage').style.display = 'none';
+            audio.play();
+        }
+
+        function triggerBomb(e) {
+            const card = document.getElementById('anniversaryContainer');
+            card.classList.add('shake');
+            setTimeout(() => card.classList.remove('shake'), 300);
+            for(let i=0; i<8; i++) {
+                const p = document.createElement('div'); p.className = 'bomb-particle';
+                p.style.left = e.clientX + 'px'; p.style.top = e.clientY + 'px';
+                p.style.setProperty('--x', (Math.random() - 0.5) * 150 + 'px');
+                p.style.setProperty('--y', (Math.random() - 0.5) * 150 + 'px');
+                document.body.appendChild(p); setTimeout(() => p.remove(), 600);
+            }
+            if(navigator.vibrate) navigator.vibrate(100);
+        }
+
+        function loadQuiz() {
+            const data = quizData[currentStep];
+            document.getElementById('stepNum').innerText = currentStep + 1;
+            document.getElementById('qBody').innerText = data.q;
+            const optBox = document.getElementById('optsGrid');
+            optBox.innerHTML = "";
+            
+            const allOpts = [...data.opts].sort(() => Math.random() - 0.5);
+            
+            allOpts.forEach(opt => {
+                const btn = document.createElement('div');
+                btn.className = 'opt-btn'; btn.innerText = opt;
+                btn.onclick = (e) => { 
+                    if(opt === data.a) openPass(); 
+                    else triggerBomb(e); 
+                };
+                optBox.appendChild(btn);
+            });
+        }
+
+        function openPass() {
+            document.getElementById('passModal').style.display = 'flex';
+            document.getElementById('passQ').innerText = quizData[currentStep].pq;
+        }
+
+        function checkPass() {
+            const val = document.getElementById('passInput').value.toLowerCase().trim();
+            if(val === quizData[currentStep].pa) {
+                document.getElementById('passModal').style.display = 'none';
+                document.getElementById('passInput').value = "";
+                currentStep++;
+                if(currentStep < quizData.length) loadQuiz(); else showLetter();
+            } else { alert("Incorrect! Try again Jaan! ❤️"); }
+        }
+
+        function showLetter() {
+            document.getElementById('quiz').style.display = 'none';
+            const note = document.getElementById('noteBox');
+            note.style.display = 'block';
+            
+            const message = `MAY 08, 2026\n\nDearest <span class="hl-ink">Afrin</span>,\n\nHappy 2nd Anniversary My Jaan! ❤️\n\nWords fall short when I try to describe what these last two years have meant to me. You came into my life like a blessing, and today, you are the very reason behind every smile I wear. Every second spent with you is a treasure I will guard forever.\n\nYou are not just my partner; you are my peace, my home, and my greatest achievement. Main waada karta hoon ki duniya ki har khushi tumhare kadmon mein la kar rakh dunga. Mahfuz hamesha sirf tumhara rahega.\n\nThank you for being the most amazing girl. You are my MVP, my Queen, and my forever. This is just the beginning of an eternity together. I love you more than words can ever capture.\n\nWith all my heart,\nYour Mahfuz ❤️\n\n<div class="urdu-ink">میری پیاری <span class="hl-ink">آفرین</span>، سالگرہ مبارک! تم میری زندگی کی سب سے بڑی خوشی ہو۔ میں ہمیشہ تمہارا بن کر رہوں گا۔</div>`;
+            
+            let i = 0;
+            function typeWriter() {
+                if (i < message.length) {
+                    if(message[i] === '<') {
+                        let end = message.indexOf('>', i);
+                        note.innerHTML += message.slice(i, end + 1);
+                        i = end + 1;
+                    } else {
+                        note.innerHTML += message[i];
+                        i++;
+                    }
+                    note.scrollTop = note.scrollHeight;
+                    setTimeout(typeWriter, 40);
+                } else {
+                    document.getElementById('downloadBtn').style.display = 'block';
+                }
+            }
+            typeWriter();
+        }
+
+        function downloadLetter() {
+            const element = document.getElementById('noteBox');
+            const opt = {
+                margin: 5,
+                filename: 'Afrin_Mahfuz_Anniversary_Letter.pdf',
+                image: { type: 'jpeg', quality: 1 },
+                html2canvas: { scale: 3 },
+                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+            };
+            html2pdf().set(opt).from(element).save();
+        }
+    </script>
+</body>
+</html>
             display: none; height: 100%; overflow-y: auto; padding: 25px;
             background-color: var(--paper); border-radius: 5px;
             font-family: 'Courier Prime', monospace; 
